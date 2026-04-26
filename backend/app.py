@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import os
 import threading
 
 from flask import Flask, jsonify, request
@@ -30,7 +31,11 @@ ALLOWED_REGIONS = {"world", "africa", "asia", "americas", "europe", "oceania"}
 ALLOWED_THEMES = {"waste", "air", "water", "soil"}
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": ["http://localhost:5173"]}})
+ALLOWED_ORIGINS = os.environ.get(
+    "ALLOWED_ORIGINS",
+    "http://localhost:5173",
+).split(",")
+CORS(app, origins=ALLOWED_ORIGINS)
 
 _SCHEDULER_STARTED = False
 
@@ -125,4 +130,5 @@ def api_health():
 
 if __name__ == "__main__":
     _ensure_initialized()
-    app.run(host="0.0.0.0", port=5000, debug=False)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False)

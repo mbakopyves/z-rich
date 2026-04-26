@@ -3,16 +3,18 @@
 from __future__ import annotations
 
 import logging
+import os
 import re
 import sqlite3
 from datetime import datetime, timedelta
-from pathlib import Path
 from typing import Any
 
 LOGGER = logging.getLogger(__name__)
 
-BASE_DIR = Path(__file__).resolve().parent
-DB_PATH = BASE_DIR / "zürich.db"
+DB_PATH = os.environ.get(
+    "DB_PATH",
+    os.path.join(os.path.dirname(__file__), "zürich.db"),
+)
 
 
 def clean_html(text):
