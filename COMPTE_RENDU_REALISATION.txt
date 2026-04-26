@@ -1,0 +1,146 @@
+COMPTE RENDU DE REALISATION - PROJET ZURICH
+
+Dossier projet cree:
+- /home/nect/Zürich
+
+Ce qui a ete fait exactement:
+
+1) Initialisation du projet React
+- Creation du projet avec Vite (template React).
+- Installation des dependances du projet (npm).
+- Le demarrage auto du serveur dev lance par l'assistant Vite a echoue (ENOSPC: limite de file watchers), mais la structure du projet et les dependances ont bien ete creees.
+
+2) Refonte complete de l'application
+- Remplacement integral de src/App.jsx par une implementation modulaire de la plateforme "Zürich".
+- Ajout des composants demandes dans un seul fichier App.jsx:
+  Header, TickerBar, FilterBar, ArticleTop, ArticleRow, Sidebar, NewsroomPage.
+- Ajout des pages placeholder pour:
+  Carte, Donnees, Alertes, Rapports.
+
+3) Fonctionnalites implementees
+- SPA avec navigation interne a 5 sections:
+  Actualites, Carte, Donnees, Alertes, Rapports.
+- Header avec:
+  logo "Zürich", sous-titre sous le nom, navbar, selecteur de langue.
+- Ticker noir en haut avec alertes critiques defilantes.
+- Filtres en chips:
+  Regions (Monde/Afrique/Asie/Ameriques/Europe/Oceanie) et Themes (Tous/Dechets/Air/Eau/Sols).
+- Bloc "A la une":
+  titre style presse (serif), description, meta source/date, niveau d'alerte colore.
+- Liste d'articles:
+  lignes compactes avec vignette, titre, meta, niveau d'alerte en texte colore.
+- Sidebar (200px):
+  indicateurs mondiaux, alertes actives, themes cliquables, boutons export PDF/CSV/Lien.
+- Footer dynamique:
+  "Prochaine actualisation dans Xh Xmin · X sources actives".
+
+4) Donnees simulees
+- Integration de donnees JSON statiques realistes dans App.jsx.
+- Structure des objets article respectee:
+  id, titre, description, source, region, theme, date, niveau, pays, imageUrl.
+- Titres conserves dans leur langue d'origine.
+
+5) Internationalisation (UI)
+- Traductions UI ajoutees pour FR / EN / ES / AR.
+- Traduction de:
+  navbar, filtres, labels, niveaux d'alerte, sections sidebar, placeholders, footer.
+- Support RTL pour l'arabe via l'attribut dir.
+
+6) Style visuel
+- Ajout de src/App.module.css (CSS Modules).
+- Respect du style demande:
+  noir/blanc/gris, sans fond colore fort ni degrade.
+- Typographie:
+  titres d'articles en serif, interface en sans-serif.
+- Niveaux d'alerte affiches uniquement en texte colore (rouge/ambre/bleu/gris).
+
+7) Nettoyage des fichiers de base
+- Suppression de src/App.css (template Vite initial).
+- Simplification de src/index.css pour un reset propre et neutre.
+
+8) Verification technique
+- Lint execute: npm run lint -> OK.
+- Build execute: npm run build -> OK.
+
+Fichiers principaux modifies/crees:
+- src/App.jsx (remplace completement)
+- src/App.module.css (nouveau)
+- src/index.css (mis a jour)
+- src/App.css (supprime)
+
+
+9) Backend Python realise (Flask + SQLite + Scraping + Scheduler)
+- Creation du dossier backend:
+  /home/nect/Zürich/backend
+- Creation des fichiers demandes:
+  requirements.txt, database.py, classifier.py, scraper.py, scheduler.py, app.py
+
+10) Base de donnees SQLite (database.py)
+- Base: zürich.db
+- Tables creees:
+  - articles (id, titre, description, source, region, theme, date, niveau, pays, imageUrl, scraped_at)
+  - stats (id, pollution_index, critical_zones, countries_covered, articles_24h, updated_at)
+  - active_alerts (id, pays, description, niveau, created_at)
+- Fonctions implementees:
+  insert_article, get_articles, get_article_by_id, get_stats, get_alerts,
+  update_stats, count_articles, get_last_scrape_time
+- Recalcul des stats et regeneration automatique des alertes actives (top 3 articles critique/eleve recents).
+
+11) Classification par mots-cles (classifier.py)
+- Fonctions pures implementees:
+  detect_region(text), detect_theme(text), detect_niveau(text, valeur_pm25=None)
+- Normalisation des accents et de la casse pour fiabiliser les matchs.
+- Seuil PM2.5 respecte:
+  >150 critique, >55 eleve, >12 modere, sinon info.
+
+12) Scraping multi-sources (scraper.py)
+- Sources prises en charge:
+  - UNEP News (avec priorite RSS UNEP, fallback page)
+  - Reuters Environment (page officielle + fallback RSS Google News filtre Reuters)
+  - Notre Planete Info (pages actualites detaillees)
+  - OpenAQ v2 (URL demandee) + fallback v3 si necessaire
+- Pour chaque source:
+  timeout=8s, try/except local, logs d'erreur, continuation des autres sources.
+- Transformation article:
+  - id = hashlib.md5(titre.encode("utf-8")).hexdigest()[:12]
+  - classification region/theme/niveau via classifier.py
+  - insertion dedoublonnee via database.py
+- Description normalisee entre 100 et 200 mots.
+
+13) Scheduler APScheduler (scheduler.py)
+- BackgroundScheduler configure avec:
+  - scrape_all() toutes les 24h
+  - update_stats() toutes les heures
+- Au demarrage:
+  - si base vide -> scrape_all() immediat
+  - sinon -> update_stats()
+- Arret propre avec atexit (shutdown du scheduler).
+
+14) API Flask (app.py)
+- CORS actif pour: http://localhost:5173
+- Endpoints implementes:
+  - GET /api/articles?region=&theme=&limit=
+  - GET /api/articles/<id>
+  - GET /api/stats
+  - GET /api/alerts
+  - POST /api/scrape (lancement en arriere-plan via thread daemon)
+  - GET /api/health
+- Initialisation protegee (DB + scheduler une seule fois).
+- Lancement serveur en debug=False pour eviter le reloader multiple.
+
+15) Dependances backend (requirements.txt)
+- flask
+- flask-cors
+- requests
+- beautifulsoup4
+- apscheduler
+- lxml
+
+16) Validations backend effectuees
+- Installation deps dans venv backend:
+  /home/nect/Zürich/backend/.venv
+- Verification compilation:
+  python -m compileall app.py database.py classifier.py scraper.py scheduler.py -> OK
+- Verification import modules -> OK
+- Test endpoints (health/articles/stats/alerts/scrape) -> OK
+- Test scraping global -> OK avec gestion des sources bloquees/restrictives.
