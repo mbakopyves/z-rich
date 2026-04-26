@@ -144,3 +144,109 @@ Fichiers principaux modifies/crees:
 - Verification import modules -> OK
 - Test endpoints (health/articles/stats/alerts/scrape) -> OK
 - Test scraping global -> OK avec gestion des sources bloquees/restrictives.
+
+17) Mise en oeuvre finale des 4 pages (remplacement des placeholders)
+- Les 4 pages placeholders ont ete remplacees par des pages fonctionnelles dans src/App.jsx:
+  - /carte
+  - /donnees
+  - /alertes
+  - /rapports
+
+18) Page /carte
+- Integration de react-leaflet + leaflet.
+- Chargement du CSS Leaflet via CDN (sans ajout de librairie de carte supplementaire).
+- Carte mondiale centree sur (20, 0), zoom 2.
+- Affichage de marqueurs circulaires par pays avec couleur selon niveau:
+  critique #b00020, eleve #b37a00, modere #2b4ea1, info #4b4b4b.
+- Popup au clic: pays, nombre d'articles, niveau dominant, titre du dernier article.
+- Fond de carte sobre CartoDB Positron.
+- Legende en bas a gauche avec les 4 niveaux.
+
+19) Page /donnees
+- Tableau principal avec colonnes:
+  Pays | Theme | Niveau | Source | Date.
+- Tri cliquable sur toutes les colonnes (asc/desc).
+- Recherche texte libre sur titre + pays + source.
+- Pagination implementee: 20 articles par page.
+- Graphique sans librairie externe: barres CSS pures par theme
+  (Dechets, Air, Eau, Sols), largeur proportionnelle au volume.
+
+20) Page /alertes
+- 3 sections implementees:
+  a) Alertes critiques (cards bordure gauche rouge)
+  b) Alertes elevees (cards bordure gauche ambre)
+  c) Historique complet compact trie par date avec badge niveau colore
+- Bouton "Declencher un scraping" branche sur POST /api/scrape.
+- Etat visuel pendant appel: "Scraping en cours...".
+
+21) Page /rapports
+- Formulaire de generation:
+  region (select), theme (select), periode (7j/30j/tout), titre du rapport.
+- Previsualisation dynamique des articles filtres.
+- Resume calcule: nombre d'articles, nombre de pays, nombre de sources.
+- Repartition par niveau affichee.
+- Export Markdown:
+  bouton "Copier en Markdown" via presse-papier.
+- Export CSV:
+  bouton "Exporter CSV" (colonnes: titre, source, pays, theme, niveau, date, description).
+
+22) i18n et fallback API
+- Ajout des cles de traduction manquantes pour FR / EN / ES / AR.
+- Chaque page charge ses donnees au montage depuis l'API.
+- Fallback sur donnees statiques en cas d'indisponibilite API.
+
+23) Styles
+- Mise a jour complete de src/App.module.css avec tous les styles des 4 pages,
+  en conservant l'identite visuelle noir/blanc/serif demandee.
+
+24) Routing et qualite
+- Navigation alignee sur les chemins: /, /carte, /donnees, /alertes, /rapports.
+- Build frontend valide: npm run build -> OK.
+- Lint frontend valide: npm run lint -> OK.
+- Ajustement ESLint pour ignorer backend/.venv afin d'eviter les faux positifs externes.
+
+25) Preparation du backend Flask pour deploiement Render.com
+- Fichier cree: backend/render.yaml
+  services:
+    - type: web
+      name: zurich-backend
+      env: python
+      buildCommand: pip install -r requirements.txt
+      startCommand: gunicorn app:app --bind 0.0.0.0:$PORT
+      envVars:
+        - key: PYTHON_VERSION
+          value: 3.10.0
+
+- Fichier cree: backend/Procfile
+  web: gunicorn app:app --bind 0.0.0.0:$PORT --workers 2
+
+- Dependances backend mises a jour:
+  - Ajout de "gunicorn" dans backend/requirements.txt
+
+- backend/app.py adapte pour production:
+  - import os ajoute
+  - Port dynamique via variable d'environnement:
+      port = int(os.environ.get('PORT', 5000))
+      app.run(host='0.0.0.0', port=port, debug=False)
+  - CORS configurable par variable d'environnement:
+      ALLOWED_ORIGINS = os.environ.get('ALLOWED_ORIGINS', 'http://localhost:5173').split(',')
+      CORS(app, origins=ALLOWED_ORIGINS)
+
+- backend/database.py adapte pour Render:
+  - import os ajoute
+  - DB_PATH configurable par variable d'environnement:
+      DB_PATH = os.environ.get('DB_PATH', os.path.join(os.path.dirname(__file__), 'zürich.db'))
+  - Connexion SQLite basee sur DB_PATH
+
+26) Validation locale du deploiement
+- Installation locale de gunicorn dans .venv: OK
+- Lancement backend avec gunicorn:
+  gunicorn app:app --bind 0.0.0.0:5000 --workers 2
+- Test endpoint sante:
+  curl http://localhost:5000/api/health -> status: ok
+
+27) GitHub
+- Commit cree:
+  efb6023 - chore: prepare backend for Render deployment
+- Push effectue vers GitHub:
+  origin/main -> SUCCES
