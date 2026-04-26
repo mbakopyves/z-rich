@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import logging
+import time
 from datetime import datetime
 from email.utils import parsedate_to_datetime
 from typing import Any
@@ -192,6 +193,8 @@ def fetch_article_image(url: str) -> str | None:
                          "AppleWebKit/537.36 Chrome/120.0 Safari/537.36"
         }
         resp = requests.get(url, headers=headers, timeout=6)
+        if resp.status_code == 403:
+            return None  # Cloudflare blocks this URL, use thematic fallback
         if resp.status_code != 200:
             return None
         soup = BeautifulSoup(resp.text, "lxml")
@@ -285,9 +288,11 @@ def scrape_unep() -> int:
                         url=article_url,
                     )
                 )
+                # Try to fetch image, with gentle delay to avoid rate limiting
                 image_url = fetch_article_image(article_url) or extract_image(anchor) or extract_image(soup)
                 if image_url:
                     articles[-1]["imageUrl"] = image_url
+                time.sleep(0.5)  # Gentle delay between requests
             inserted_total = _insert_articles(articles)
             LOGGER.info("UNEP page fallback: %s article(s) inséré(s)", inserted_total)
         except Exception as error:
