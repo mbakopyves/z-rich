@@ -170,6 +170,16 @@ def _fetch_xml(url: str) -> BeautifulSoup:
     return BeautifulSoup(response.content, "xml")
 
 
+def extract_image(soup_element) -> str | None:
+    img = soup_element.find("meta", property="og:image")
+    if img and img.get("content"):
+        return img["content"]
+    img = soup_element.find("img", src=True)
+    if img and str(img["src"]).startswith("http"):
+        return img["src"]
+    return None
+
+
 def scrape_unep() -> int:
     """Scrape UNEP News : titres + résumés."""
     inserted_total = 0
@@ -194,6 +204,9 @@ def scrape_unep() -> int:
                     date_value=pub_date,
                 )
             )
+            image_url = extract_image(item) or extract_image(rss)
+            if image_url:
+                articles[-1]["imageUrl"] = image_url
 
         inserted_total = _insert_articles(articles)
         LOGGER.info("UNEP RSS: %s article(s) inséré(s)", inserted_total)
@@ -219,6 +232,9 @@ def scrape_unep() -> int:
                         date_value=_now_iso(),
                     )
                 )
+                image_url = extract_image(anchor) or extract_image(soup)
+                if image_url:
+                    articles[-1]["imageUrl"] = image_url
             inserted_total = _insert_articles(articles)
             LOGGER.info("UNEP page fallback: %s article(s) inséré(s)", inserted_total)
         except Exception as error:
@@ -265,6 +281,9 @@ def scrape_reuters_environment() -> int:
                     date_value=date_text,
                 )
             )
+            image_url = extract_image(card) or extract_image(soup)
+            if image_url:
+                articles[-1]["imageUrl"] = image_url
 
         inserted_total = _insert_articles(articles)
         LOGGER.info("Reuters page: %s article(s) inséré(s)", inserted_total)
@@ -310,6 +329,9 @@ def scrape_reuters_via_google_news() -> int:
                     date_value=pub_date,
                 )
             )
+            image_url = extract_image(item) or extract_image(rss)
+            if image_url:
+                articles[-1]["imageUrl"] = image_url
 
         inserted_total = _insert_articles(articles)
         LOGGER.info("Reuters fallback RSS: %s article(s) inséré(s)", inserted_total)
@@ -385,6 +407,9 @@ def scrape_notre_planete() -> int:
                         pays="France",
                     )
                 )
+                image_url = extract_image(article_soup) or extract_image(soup)
+                if image_url:
+                    articles[-1]["imageUrl"] = image_url
             except Exception:
                 LOGGER.exception("Erreur lecture article Notre Planète: %s", url)
 

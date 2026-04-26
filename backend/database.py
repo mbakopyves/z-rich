@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import logging
+import re
 import sqlite3
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -12,6 +13,15 @@ LOGGER = logging.getLogger(__name__)
 
 BASE_DIR = Path(__file__).resolve().parent
 DB_PATH = BASE_DIR / "zürich.db"
+
+
+def clean_html(text):
+    if not text:
+        return ""
+    clean = re.sub(r"<[^>]+>", "", text)
+    clean = re.sub(r"&[a-zA-Z]+;", " ", clean)
+    clean = " ".join(clean.split())
+    return clean[:200]
 
 
 def _get_connection() -> sqlite3.Connection:
@@ -71,6 +81,8 @@ def init_db() -> None:
 def insert_article(article_dict: dict[str, Any]) -> bool:
     """Insère un article en ignorant les doublons (retourne True si inséré)."""
     init_db()
+    clean_title = clean_html(article_dict.get("titre"))
+    clean_description = clean_html(article_dict.get("description"))
     with _get_connection() as connection:
         cursor = connection.cursor()
         cursor.execute(
@@ -81,8 +93,8 @@ def insert_article(article_dict: dict[str, Any]) -> bool:
             """,
             (
                 article_dict.get("id"),
-                article_dict.get("titre"),
-                article_dict.get("description"),
+                clean_title,
+                clean_description,
                 article_dict.get("source"),
                 article_dict.get("region"),
                 article_dict.get("theme"),
@@ -96,6 +108,28 @@ def insert_article(article_dict: dict[str, Any]) -> bool:
         inserted = cursor.rowcount > 0
         connection.commit()
         return inserted
+
+
+def cleanup_existing_articles_html() -> int:
+    """Nettoie le HTML existant dans titre/description pour toutes les lignes."""
+    init_db()
+    updated = 0
+    with _get_connection() as connection:
+        rows = connection.execute("SELECT id, titre, description FROM articles").fetchall()
+        for row in rows:
+            new_title = clean_html(row["titre"])
+            new_description = clean_html(row["description"])
+            connection.execute(
+                """
+                UPDATE articles
+                SET titre = ?, description = ?
+                WHERE id = ?
+                """,
+                (new_title, new_description, row["id"]),
+            )
+            updated += 1
+        connection.commit()
+    return updated
 
 
 def get_articles(region: str | None = None, theme: str | None = None, limit: int = 50) -> list[dict[str, Any]]:
