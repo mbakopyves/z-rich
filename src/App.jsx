@@ -611,7 +611,7 @@ function Sidebar({ t, language, activeTheme, onThemeClick, stats, alerts }) {
   );
 }
 
-function NewsroomPage({ t, language, selectedRegion, selectedTheme, onRegionChange, onThemeChange, topArticle, listArticles, criticalArticles, stats, alerts, loading, error }) {
+function NewsroomPage({ t, language, selectedRegion, selectedTheme, onRegionChange, onThemeChange, topArticle, listArticles, criticalArticles, stats, alerts, loading, error, onOpenArticle }) {
   return (
     <main className={styles.newsroomPage}>
       <TickerBar articles={criticalArticles} t={t} />
@@ -622,11 +622,11 @@ function NewsroomPage({ t, language, selectedRegion, selectedTheme, onRegionChan
         <div className={styles.feedColumn}>
           {loading ? <div className={styles.infoText}>{t.common.loading}</div> : null}
           {error ? <div className={styles.infoText}>{error}</div> : null}
-          <ArticleTop article={topArticle} t={t} language={language} onOpenArticle={setArticleOuvert} />
+          <ArticleTop article={topArticle} t={t} language={language} onOpenArticle={onOpenArticle} />
 
           <h4 className={styles.feedTitle}>{t.latest}</h4>
           <div className={styles.articleRows}>
-            {listArticles.length > 0 ? listArticles.map((article) => <ArticleRow key={article.id} article={article} t={t} language={language} onOpenArticle={setArticleOuvert} />) : <div className={styles.emptyState}>{t.noArticles}</div>}
+            {listArticles.length > 0 ? listArticles.map((article) => <ArticleRow key={article.id} article={article} t={t} language={language} onOpenArticle={onOpenArticle} />) : <div className={styles.emptyState}>{t.noArticles}</div>}
           </div>
         </div>
 
@@ -1405,6 +1405,7 @@ function App() {
           alerts={alerts}
           loading={loading}
           error={error}
+          onOpenArticle={setArticleOuvert}
         />
       ) : null}
 
