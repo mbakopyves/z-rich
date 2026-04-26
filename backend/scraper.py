@@ -182,6 +182,53 @@ def extract_image(soup_element) -> str | None:
     return None
 
 
+def fetch_article_image(url: str) -> str | None:
+    """Visite la page de l'article et extrait l'image principale."""
+    if not url:
+        return None
+    try:
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                         "AppleWebKit/537.36 Chrome/120.0 Safari/537.36"
+        }
+        resp = requests.get(url, headers=headers, timeout=6)
+        if resp.status_code != 200:
+            return None
+        soup = BeautifulSoup(resp.text, "lxml")
+
+        # 1. og:image (priorité maximale)
+        og = soup.find("meta", property="og:image")
+        if og and og.get("content", "").startswith("http"):
+            return og["content"]
+
+        # 2. twitter:image
+        tw = soup.find("meta", attrs={"name": "twitter:image"})
+        if tw and tw.get("content", "").startswith("http"):
+            return tw["content"]
+
+        # 3. Première <img> pertinente
+        for img in soup.find_all("img", src=True):
+            src = img.get("src", "")
+            if not src.startswith("http"):
+                continue
+            # Ignorer icônes, logos, pixels
+            skip = ["icon", "logo", "avatar", "1x1", "pixel", "badge", "button", "banner"]
+            if any(s in src.lower() for s in skip):
+                continue
+            # Préférer images avec dimensions raisonnables
+            w = img.get("width", "0")
+            try:
+                if int(w) < 100:
+                    continue
+            except Exception:
+                pass
+            return src
+
+        return None
+    except Exception:
+        return None
+
+
 def scrape_unep() -> int:
     """Scrape UNEP News : titres + résumés."""
     inserted_total = 0
@@ -208,7 +255,7 @@ def scrape_unep() -> int:
                     url=article_url,
                 )
             )
-            image_url = extract_image(item) or extract_image(rss)
+            image_url = fetch_article_image(article_url) or extract_image(item) or extract_image(rss)
             if image_url:
                 articles[-1]["imageUrl"] = image_url
 
@@ -238,7 +285,7 @@ def scrape_unep() -> int:
                         url=article_url,
                     )
                 )
-                image_url = extract_image(anchor) or extract_image(soup)
+                image_url = fetch_article_image(article_url) or extract_image(anchor) or extract_image(soup)
                 if image_url:
                     articles[-1]["imageUrl"] = image_url
             inserted_total = _insert_articles(articles)
@@ -410,10 +457,11 @@ def scrape_notre_planete() -> int:
                         description=description,
                         source="Notre Planète Info",
                         date_value=raw_date or _now_iso(),
+                        url=url,
                         pays="France",
                     )
                 )
-                image_url = extract_image(article_soup) or extract_image(soup)
+                image_url = fetch_article_image(url) or extract_image(article_soup) or extract_image(soup)
                 if image_url:
                     articles[-1]["imageUrl"] = image_url
             except Exception:

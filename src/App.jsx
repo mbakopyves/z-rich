@@ -1301,6 +1301,16 @@ function App() {
     return () => window.removeEventListener('popstate', onPopState);
   }, []);
 
+  useEffect(() => {
+    // Ping keep-alive toutes les 14 minutes pour garder Render éveillé
+    const keepAlive = setInterval(() => {
+      fetch(`${API_BASE}/health`, { method: 'GET' })
+        .catch(() => {}) // Ignorer les erreurs silencieusement
+    }, 14 * 60 * 1000) // 14 minutes
+
+    return () => clearInterval(keepAlive)
+  }, []);
+
   const handleSectionChange = useCallback((section) => {
     const nextPath = getPathFromSection(section);
     if (window.location.pathname !== nextPath) window.history.pushState({}, '', nextPath);
