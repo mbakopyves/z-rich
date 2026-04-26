@@ -250,3 +250,70 @@ Fichiers principaux modifies/crees:
   efb6023 - chore: prepare backend for Render deployment
 - Push effectue vers GitHub:
   origin/main -> SUCCES
+
+28) Submodule Git casse (fix)
+- Suppression du submodule z-rich cassé via:
+  git rm --cached z-rich
+  git config -f .gitmodules --remove-section submodule.z-rich
+  rm -rf .git/modules/z-rich z-rich
+- Commit cree: 206e6d8 - fix: remove broken z-rich submodule
+- Push effectue vers master -> SUCCES
+
+29) FONCTIONNALITE 1 : Lecteur d'article integre avec iframe
+- Ajout d'un etat global dans App.jsx:
+  const [articleOuvert, setArticleOuvert] = useState(null)
+- Creation du composant LecteurArticle:
+  - Affiche un iframe fullscreen overlay avec header personnalise
+  - Source, titre et actions (ouvrir en nouvel onglet, fermer)
+  - Gestion du blocage d'iframe par les sites (X-Frame-Options):
+    si iframe bloquee -> affiche message sobre + lien direct
+  - Sandbox: allow-scripts allow-same-origin allow-popups
+- Modification d'ArticleTop et ArticleRow:
+  - Titres rendus cliquables (cursor: pointer)
+  - onClick declenche setArticleOuvert({url, titre, source})
+- Styles CSS complets dans App.module.css:
+  .lecteurOverlay, .lecteurHeader, .lecteurMeta, .lecteurSource, .lecteurTitre,
+  .lecteurActions, .lecteurExterne, .lecteurFermer, .lecteurIframe, .lecteurBloque
+- LecteurArticle integre dans le rendu principal avant footer
+
+30) FONCTIONNALITE 2 : Images par defaut thematiques
+- Creation de fonction getImageParDefaut(theme):
+  - waste: icone poubelle/dechets
+  - air: icone nuage/fumee
+  - water: icone goutte/vague
+  - soil: icone terre/feuille
+  - default: icone globe
+- SVG inline 40x40px, niveaux de gris, fond #f5f5f5
+- Modification d'ArticleThumbnail:
+  - si imageUrl existe -> affiche l'image
+  - sinon -> affiche SVG thematique du theme de l'article
+  - utilise dangerouslySetInnerHTML pour renderiser SVG
+
+31) Migration base de donnees
+- Creation de backend/migrate.py:
+  - Ajoute colonne url TEXT a la table articles
+  - Gestion des erreurs (colonne deja existante)
+  - Execution: python3 backend/migrate.py -> SUCCESS
+- Modification de database.py:
+  - Colonne url ajoutee lors de CREATE TABLE IF NOT EXISTS
+  - INSERT incluant url parametre
+  - SELECT dans get_articles() et get_article_by_id() incluant url
+- Modification de scraper.py:
+  - Fonction _build_article_dict() accepte param url
+  - scrape_unep() extrait link depuis RSS et href fallback page
+  - URL passee en parametre lors creation articles
+- Modification d'App.jsx:
+  - Articles statiques ARTICLES[] incluent url pour test local
+  - Exemples: https://www.reuters.com, https://www.lemonde.fr, etc.
+
+32) Git & GitHub - NOUVELLES FONCTIONNALITES
+- Commit cree: ef6b1dd - feat: article reader iframe + thematic images
+  Details du commit:
+    - Add article reader iframe that opens on title click
+    - Add thematic placeholder images (waste, air, water, soil)
+    - Add url field to articles database
+    - Implement LecteurArticle component with fallback for blocked iframes
+    - Add getImageParDefaut function with SVG icons
+    - Modify ArticleTop and ArticleRow for clickable titles
+- Push effectue vers master -> SUCCES
+- Branche locale synchronisee avec origin/master
