@@ -254,17 +254,17 @@ const TRANSLATIONS = {
 };
 
 const ARTICLES = [
-  { id: 'news-001', titre: 'Toxic ash migration detected across three shipping corridors', description: 'Satellite and port inspections confirm illegal ash transfers between coastal terminals, raising public-health concerns in densely populated harbors.', source: 'Reuters', region: 'world', theme: 'waste', date: '2026-04-26T10:42:00Z', niveau: 'critique', pays: 'Multiple countries', imageUrl: null },
-  { id: 'news-002', titre: 'Contaminación del agua obliga cierres temporales en puertos del Caribe', description: 'Nuevos análisis detectan niveles de hidrocarburos por encima de los límites recomendados en zonas de pesca artesanal.', source: 'Agencia EFE', region: 'americas', theme: 'water', date: '2026-04-26T09:58:00Z', niveau: 'eleve', pays: 'República Dominicana', imageUrl: null },
-  { id: 'news-003', titre: 'Décharges ouvertes: hausse de particules fines dans deux capitales sahéliennes', description: 'Des mesures indépendantes indiquent une hausse marquée des PM2.5 autour de sites de brûlage informel de déchets ménagers.', source: 'Le Monde Afrique', region: 'africa', theme: 'air', date: '2026-04-26T09:20:00Z', niveau: 'critique', pays: 'Niger', imageUrl: null },
-  { id: 'news-004', titre: 'Riverbank cleanup delayed as heavy metal readings remain unstable', description: 'Environmental labs warn that remediation targets are slipping as cadmium concentration fluctuates after seasonal flooding.', source: 'BBC World', region: 'europe', theme: 'water', date: '2026-04-26T08:40:00Z', niveau: 'modere', pays: 'Romania', imageUrl: null },
-  { id: 'news-005', titre: 'تسرب نفايات صناعية قرب مجرى نهري يثير احتجاجات محلية', description: 'أكدت فرق الرصد البيئي وجود مخلفات كيميائية في محيط مواقع تصنيع غير ملتزمة بمعايير السلامة.', source: 'Al Jazeera', region: 'asia', theme: 'waste', date: '2026-04-26T08:10:00Z', niveau: 'eleve', pays: 'Iraq', imageUrl: null },
-  { id: 'news-006', titre: 'Plastics leakage index worsens in South Pacific shipping lanes', description: 'Audit reports show microplastic concentration spikes near high-traffic maritime routes and informal dumping points.', source: 'Reuters', region: 'oceania', theme: 'waste', date: '2026-04-26T07:46:00Z', niveau: 'modere', pays: 'Fiji', imageUrl: null },
-  { id: 'news-007', titre: 'Indice global de pollution atmosphérique: 12 mégapoles en vigilance élevée', description: "La dernière consolidation des capteurs urbains confirme une aggravation continue de l'exposition sur les grands axes logistiques.", source: 'AFP', region: 'world', theme: 'air', date: '2026-04-26T07:20:00Z', niveau: 'eleve', pays: 'Global', imageUrl: null },
-  { id: 'news-008', titre: 'Incendios en vertederos ilegales elevan riesgos sanitarios en la periferia', description: 'Organizaciones comunitarias denuncian la falta de planes de contingencia y evacuación para barrios cercanos.', source: 'El País', region: 'americas', theme: 'air', date: '2026-04-26T06:52:00Z', niveau: 'critique', pays: 'Perú', imageUrl: null },
-  { id: 'news-009', titre: 'Groundwater nitrate alerts extended across major farming districts', description: 'A joint bulletin urges local authorities to monitor wells as nitrate concentrations exceed seasonal norms.', source: 'Financial Times', region: 'europe', theme: 'soil', date: '2026-04-26T06:10:00Z', niveau: 'info', pays: 'Spain', imageUrl: null },
-  { id: 'news-010', titre: 'Accumulation de déchets électroniques dans les zones portuaires d’Afrique de l’Ouest', description: 'Les contrôles douaniers signalent une hausse des arrivages non conformes, avec des filières de recyclage insuffisantes.', source: 'Mongabay', region: 'africa', theme: 'waste', date: '2026-04-26T05:34:00Z', niveau: 'modere', pays: 'Ghana', imageUrl: null },
-  { id: 'news-011', titre: 'Coastal sediments show elevated mercury levels after storm season', description: 'Lab teams documented persistent contamination pockets near estuaries that supply nearby urban districts.', source: 'The Guardian', region: 'asia', theme: 'soil', date: '2026-04-26T04:58:00Z', niveau: 'eleve', pays: 'Indonesia', imageUrl: null },
+  { id: 'news-001', titre: 'Toxic ash migration detected across three shipping corridors', description: 'Satellite and port inspections confirm illegal ash transfers between coastal terminals, raising public-health concerns in densely populated harbors.', source: 'Reuters', region: 'world', theme: 'waste', date: '2026-04-26T10:42:00Z', niveau: 'critique', pays: 'Multiple countries', imageUrl: null, url: 'https://www.reuters.com' },
+  { id: 'news-002', titre: 'Contaminación del agua obliga cierres temporales en puertos del Caribe', description: 'Nuevos análisis detectan niveles de hidrocarburos por encima de los límites recomendados en zonas de pesca artesanal.', source: 'Agencia EFE', region: 'americas', theme: 'water', date: '2026-04-26T09:58:00Z', niveau: 'eleve', pays: 'República Dominicana', imageUrl: null, url: 'https://www.reuters.com' },
+  { id: 'news-003', titre: 'Décharges ouvertes: hausse de particules fines dans deux capitales sahéliennes', description: 'Des mesures indépendantes indiquent une hausse marquée des PM2.5 autour de sites de brûlage informel de déchets ménagers.', source: 'Le Monde Afrique', region: 'africa', theme: 'air', date: '2026-04-26T09:20:00Z', niveau: 'critique', pays: 'Niger', imageUrl: null, url: 'https://www.reuters.com' },
+  { id: 'news-004', titre: 'Riverbank cleanup delayed as heavy metal readings remain unstable', description: 'Environmental labs warn that remediation targets are slipping as cadmium concentration fluctuates after seasonal flooding.', source: 'BBC World', region: 'europe', theme: 'water', date: '2026-04-26T08:40:00Z', niveau: 'modere', pays: 'Romania', imageUrl: null, url: 'https://www.reuters.com' },
+  { id: 'news-005', titre: 'تسرب نفايات صناعية قرب مجرى نهري يثير احتجاجات محلية', description: 'أكدت فرق الرصد البيئي وجود مخلفات كيميائية في محيط مواقع تصنيع غير ملتزمة بمعايير السلامة.', source: 'Al Jazeera', region: 'asia', theme: 'waste', date: '2026-04-26T08:10:00Z', niveau: 'eleve', pays: 'Iraq', imageUrl: null, url: 'https://www.reuters.com' },
+  { id: 'news-006', titre: 'Plastics leakage index worsens in South Pacific shipping lanes', description: 'Audit reports show microplastic concentration spikes near high-traffic maritime routes and informal dumping points.', source: 'Reuters', region: 'oceania', theme: 'waste', date: '2026-04-26T07:46:00Z', niveau: 'modere', pays: 'Fiji', imageUrl: null, url: 'https://www.reuters.com' },
+  { id: 'news-007', titre: 'Indice global de pollution atmosphérique: 12 mégapoles en vigilance élevée', description: "La dernière consolidation des capteurs urbains confirme une aggravation continue de l'exposition sur les grands axes logistiques.", source: 'AFP', region: 'world', theme: 'air', date: '2026-04-26T07:20:00Z', niveau: 'eleve', pays: 'Global', imageUrl: null, url: 'https://www.reuters.com' },
+  { id: 'news-008', titre: 'Incendios en vertederos ilegales elevan riesgos sanitarios en la periferia', description: 'Organizaciones comunitarias denuncian la falta de planes de contingencia y evacuación para barrios cercanos.', source: 'El País', region: 'americas', theme: 'air', date: '2026-04-26T06:52:00Z', niveau: 'critique', pays: 'Perú', imageUrl: null, url: 'https://www.reuters.com' },
+  { id: 'news-009', titre: 'Groundwater nitrate alerts extended across major farming districts', description: 'A joint bulletin urges local authorities to monitor wells as nitrate concentrations exceed seasonal norms.', source: 'Financial Times', region: 'europe', theme: 'soil', date: '2026-04-26T06:10:00Z', niveau: 'info', pays: 'Spain', imageUrl: null, url: 'https://www.reuters.com' },
+  { id: 'news-010', titre: 'Accumulation de déchets électroniques dans les zones portuaires d’Afrique de l’Ouest', description: 'Les contrôles douaniers signalent une hausse des arrivages non conformes, avec des filières de recyclage insuffisantes.', source: 'Mongabay', region: 'africa', theme: 'waste', date: '2026-04-26T05:34:00Z', niveau: 'modere', pays: 'Ghana', imageUrl: null, url: 'https://www.reuters.com' },
+  { id: 'news-011', titre: 'Coastal sediments show elevated mercury levels after storm season', description: 'Lab teams documented persistent contamination pockets near estuaries that supply nearby urban districts.', source: 'The Guardian', region: 'asia', theme: 'soil', date: '2026-04-26T04:58:00Z', niveau: 'eleve', pays: 'Indonesia', imageUrl: null, url: 'https://www.reuters.com' },
   { id: 'news-012', titre: 'Oceania health monitors report stable air quality despite wildfire smoke', description: 'Public agencies observed short-lived peaks, but overall exposure remained within emergency thresholds.', source: 'ABC Pacific', region: 'oceania', theme: 'air', date: '2026-04-26T03:41:00Z', niveau: 'info', pays: 'Australia', imageUrl: null }
 ];
 
@@ -466,18 +466,17 @@ function ArticleThumbnail({ article, large = false }) {
     return <img className={`${styles.articleImage} ${large ? styles.articleImageLarge : styles.articleImageSmall}`} src={article.imageUrl} alt={article.titre} />;
   }
 
+  const svgContent = getImageParDefaut(article.theme);
   return (
-    <div className={`${styles.imagePlaceholder} ${large ? styles.articleImageLarge : styles.articleImageSmall}`} aria-hidden='true'>
-      <svg width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='#cccccc' strokeWidth='1.5'>
-        <rect x='3' y='3' width='18' height='18' rx='2' />
-        <circle cx='8.5' cy='8.5' r='1.5' />
-        <path d='M21 15l-5-5L5 21' />
-      </svg>
-    </div>
+    <div
+      className={`${styles.imagePlaceholder} ${large ? styles.articleImageLarge : styles.articleImageSmall}`}
+      aria-hidden='true'
+      dangerouslySetInnerHTML={{ __html: svgContent }}
+    />
   );
 }
 
-function ArticleTop({ article, t, language }) {
+function ArticleTop({ article, t, language, onOpenArticle }) {
   if (!article) return <div className={styles.emptyState}>{t.noArticles}</div>;
 
   const levelClassName = getLevelClassName(article.niveau);
@@ -487,7 +486,17 @@ function ArticleTop({ article, t, language }) {
       <div className={styles.articleTopContent}>
         <p className={styles.articleBlockTitle}>{t.featured}</p>
         <span className={`${styles.alertBadge} ${levelClassName}`}>{t.level[article.niveau]}</span>
-        <h2 className={styles.articleTopTitle}>{article.titre}</h2>
+        <h2
+          className={styles.articleTopTitle}
+          onClick={() => onOpenArticle && onOpenArticle({
+            url: article.url,
+            titre: article.titre,
+            source: article.source
+          })}
+          style={{ cursor: 'pointer' }}
+        >
+          {article.titre}
+        </h2>
         <p className={styles.articleDescription}>{article.description}</p>
         <div className={styles.articleMeta}>
           <span>
@@ -505,11 +514,19 @@ function ArticleTop({ article, t, language }) {
   );
 }
 
-function ArticleRow({ article, t, language }) {
+function ArticleRow({ article, t, language, onOpenArticle }) {
   const levelClassName = getLevelClassName(article.niveau);
 
   return (
-    <article className={styles.articleRow}>
+    <article
+      className={styles.articleRow}
+      onClick={() => onOpenArticle && onOpenArticle({
+        url: article.url,
+        titre: article.titre,
+        source: article.source
+      })}
+      style={{ cursor: 'pointer' }}
+    >
       <ArticleThumbnail article={article} />
       <div>
         <h3 className={styles.articleRowTitle}>{article.titre}</h3>
@@ -605,11 +622,11 @@ function NewsroomPage({ t, language, selectedRegion, selectedTheme, onRegionChan
         <div className={styles.feedColumn}>
           {loading ? <div className={styles.infoText}>{t.common.loading}</div> : null}
           {error ? <div className={styles.infoText}>{error}</div> : null}
-          <ArticleTop article={topArticle} t={t} language={language} />
+          <ArticleTop article={topArticle} t={t} language={language} onOpenArticle={setArticleOuvert} />
 
           <h4 className={styles.feedTitle}>{t.latest}</h4>
           <div className={styles.articleRows}>
-            {listArticles.length > 0 ? listArticles.map((article) => <ArticleRow key={article.id} article={article} t={t} language={language} />) : <div className={styles.emptyState}>{t.noArticles}</div>}
+            {listArticles.length > 0 ? listArticles.map((article) => <ArticleRow key={article.id} article={article} t={t} language={language} onOpenArticle={setArticleOuvert} />) : <div className={styles.emptyState}>{t.noArticles}</div>}
           </div>
         </div>
 
@@ -1183,6 +1200,74 @@ function ReportsPage({ t, language }) {
   );
 }
 
+function getImageParDefaut(theme) {
+  const images = {
+    waste: '<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect width="40" height="40" fill="#f5f5f5"/><g fill="#888888"><rect x="8" y="8" width="24" height="22" rx="1"/><path d="M10 8V6h20v2M15 8V4h10v4"/></g></svg>',
+    air: '<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect width="40" height="40" fill="#f5f5f5"/><g fill="#888888"><circle cx="20" cy="12" r="4"/><path d="M8 20c2-2 4-3 6-3s4 1 6 3 4 3 6 3 4-1 6-3"/><path d="M8 28c2-2 4-3 6-3s4 1 6 3 4 3 6 3 4-1 6-3"/></g></svg>',
+    water: '<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect width="40" height="40" fill="#f5f5f5"/><g fill="#888888"><path d="M20 6c-3 4-6 8-6 12 0 3.3 2.7 6 6 6s6-2.7 6-6c0-4-3-8-6-12z"/><path d="M12 28c2-1.5 4-2 8-2s6 0.5 8 2"/></g></svg>',
+    soil: '<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect width="40" height="40" fill="#f5f5f5"/><g fill="#888888"><ellipse cx="20" cy="22" rx="12" ry="8" opacity="0.6"/><path d="M12 18c1-2 3-4 8-4s7 2 8 4"/><path d="M18 12c0-1 1-2 2-2s2 1 2 2"/></g></svg>',
+    default: '<svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect width="40" height="40" fill="#f5f5f5"/><g fill="#888888"><circle cx="20" cy="18" r="4"/><path d="M8 30l5-8 4 3 6-10 7 15H8z"/></g></svg>'
+  };
+  return images[theme] || images.default;
+}
+
+function LecteurArticle({ article, onFermer }) {
+  const [iframeBlocked, setIframeBlocked] = useState(false);
+
+  if (!article) return null;
+
+  return (
+    <div className={styles.lecteurOverlay}>
+      <div className={styles.lecteurHeader}>
+        <div className={styles.lecteurMeta}>
+          <span className={styles.lecteurSource}>{article.source}</span>
+          <span className={styles.lecteurTitre}>{article.titre}</span>
+        </div>
+        <div className={styles.lecteurActions}>
+          {article.url && (
+            <a
+              href={article.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.lecteurExterne}
+            >
+              ↗ Ouvrir dans un nouvel onglet
+            </a>
+          )}
+          <button onClick={onFermer} className={styles.lecteurFermer}>
+            ✕ Fermer
+          </button>
+        </div>
+      </div>
+      {iframeBlocked || !article.url ? (
+        <div className={styles.lecteurBloque}>
+          <p>
+            Ce site ne permet pas l'affichage intégré.
+          </p>
+          {article.url && (
+            <a
+              href={article.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.lecteurExterne}
+            >
+              ↗ Lire l'article sur {article.source}
+            </a>
+          )}
+        </div>
+      ) : (
+        <iframe
+          src={article.url}
+          className={styles.lecteurIframe}
+          title={article.titre}
+          sandbox="allow-scripts allow-same-origin allow-popups"
+          onError={() => setIframeBlocked(true)}
+        />
+      )}
+    </div>
+  );
+}
+
 function App() {
   const [language, setLanguage] = useState('fr');
   const [activeSection, setActiveSection] = useState(() => getSectionFromPath(window.location.pathname));
@@ -1195,6 +1280,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [scraping, setScraping] = useState(false);
+  const [articleOuvert, setArticleOuvert] = useState(null);
 
   const t = TRANSLATIONS[language];
   const isRtl = language === 'ar';
@@ -1326,6 +1412,13 @@ function App() {
       {activeSection === 'donnees' ? <DataPage t={t} language={language} /> : null}
       {activeSection === 'alertes' ? <AlertsPage t={t} language={language} /> : null}
       {activeSection === 'rapports' ? <ReportsPage t={t} language={language} /> : null}
+
+      {articleOuvert && (
+        <LecteurArticle
+          article={articleOuvert}
+          onFermer={() => setArticleOuvert(null)}
+        />
+      )}
 
       <footer className={styles.footer}>
         {t.footer(refreshHours, refreshMinutes, sourceCount)}{' '}

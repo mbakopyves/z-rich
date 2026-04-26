@@ -117,6 +117,7 @@ def _build_article_dict(
     description: str,
     source: str,
     date_value: str,
+    url: str | None = None,
     pays: str | None = None,
     pm25_value: float | None = None,
 ) -> dict[str, Any]:
@@ -140,6 +141,7 @@ def _build_article_dict(
         "niveau": niveau,
         "pays": country,
         "imageUrl": None,
+        "url": url,
         "scraped_at": _now_iso(),
     }
 
@@ -194,6 +196,7 @@ def scrape_unep() -> int:
                 continue
             description = item.description.get_text(" ", strip=True) if item.description else ""
             pub_date = item.pubDate.get_text(" ", strip=True) if item.pubDate else _now_iso()
+            article_url = item.link.get_text(" ", strip=True) if item.link else None
             if not description:
                 description = f"UNEP environmental update: {title}."
             articles.append(
@@ -202,6 +205,7 @@ def scrape_unep() -> int:
                     description=description,
                     source="UNEP",
                     date_value=pub_date,
+                    url=article_url,
                 )
             )
             image_url = extract_image(item) or extract_image(rss)
@@ -223,13 +227,15 @@ def scrape_unep() -> int:
                 title = anchor.get_text(" ", strip=True)
                 if not href or len(title) < 12:
                     continue
-                description = f"UNEP environmental bulletin from {urljoin('https://www.unep.org', href)}."
+                article_url = urljoin('https://www.unep.org', href)
+                description = f"UNEP environmental bulletin from {article_url}."
                 articles.append(
                     _build_article_dict(
                         titre=title,
                         description=description,
                         source="UNEP",
                         date_value=_now_iso(),
+                        url=article_url,
                     )
                 )
                 image_url = extract_image(anchor) or extract_image(soup)

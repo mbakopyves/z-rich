@@ -50,6 +50,7 @@ def init_db() -> None:
                 niveau TEXT,
                 pays TEXT,
                 imageUrl TEXT,
+                url TEXT,
                 scraped_at TEXT
             )
             """
@@ -90,8 +91,8 @@ def insert_article(article_dict: dict[str, Any]) -> bool:
         cursor.execute(
             """
             INSERT OR IGNORE INTO articles
-            (id, titre, description, source, region, theme, date, niveau, pays, imageUrl, scraped_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            (id, titre, description, source, region, theme, date, niveau, pays, imageUrl, url, scraped_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 article_dict.get("id"),
@@ -104,6 +105,7 @@ def insert_article(article_dict: dict[str, Any]) -> bool:
                 article_dict.get("niveau"),
                 article_dict.get("pays"),
                 article_dict.get("imageUrl"),
+                article_dict.get("url"),
                 article_dict.get("scraped_at"),
             ),
         )
@@ -138,7 +140,7 @@ def get_articles(region: str | None = None, theme: str | None = None, limit: int
     """Retourne une liste d'articles avec filtres optionnels."""
     init_db()
     query = """
-        SELECT id, titre, description, source, region, theme, date, niveau, pays, imageUrl
+        SELECT id, titre, description, source, region, theme, date, niveau, pays, imageUrl, url
         FROM articles
         WHERE 1=1
     """
@@ -166,7 +168,7 @@ def get_article_by_id(article_id: str) -> dict[str, Any] | None:
     with _get_connection() as connection:
         row = connection.execute(
             """
-            SELECT id, titre, description, source, region, theme, date, niveau, pays, imageUrl
+            SELECT id, titre, description, source, region, theme, date, niveau, pays, imageUrl, url
             FROM articles
             WHERE id = ?
             """,
