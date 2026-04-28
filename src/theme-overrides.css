@@ -1,0 +1,23 @@
+/* Hover/focus/transitions and accessible states */
+button, .navButton, .chip, .exportButton, .themeButton, .scrapeButton, .refreshButton, .lecteurFermer {
+  transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease, transform 120ms ease;
+}
+
+.navButton:hover, .navButton:focus {
+  color: var(--color-text);
+}
+
+.navButtonActive { border-bottom-color: var(--color-primary); }
+
+.chip:hover, .exportButton:hover, .themeButton:hover, .scrapeButton:hover, .refreshButton:hover, .lecteurFermer:hover {
+  background: rgba(14,165,233,0.06);
+  border-color: rgba(14,165,233,0.2);
+}
+
+.chipActive { border-color: var(--color-primary); }
+
+/* subtle lift on interactive press */
+button:active, .navButton:active { transform: translateY(1px); }
+
+/* Ensure links in dark mode are readable */
+a { color: var(--color-primary); }

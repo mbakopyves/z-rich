@@ -14,7 +14,7 @@ from scraper import scrape_all
 LOGGER = logging.getLogger(__name__)
 
 
-class ZurichScheduler:
+class WaniwaScheduler:
     """Encapsule la gestion du scheduler pour un arrêt propre."""
 
     def __init__(self) -> None:
@@ -69,10 +69,10 @@ class ZurichScheduler:
         self._started = False
 
 
-_SCHEDULER_INSTANCE: ZurichScheduler | None = None
+_SCHEDULER_INSTANCE: WaniwaScheduler | None = None
 
 
-def get_scheduler() -> ZurichScheduler:
+def get_scheduler() -> WaniwaScheduler:
     """Retourne une instance singleton du scheduler."""
     global _SCHEDULER_INSTANCE
     if _SCHEDULER_INSTANCE is None:
@@ -80,7 +80,7 @@ def get_scheduler() -> ZurichScheduler:
     return _SCHEDULER_INSTANCE
 
 
-def start_scheduler() -> ZurichScheduler:
+def start_scheduler() -> WaniwaScheduler:
     """Raccourci pour démarrer le scheduler."""
     scheduler = get_scheduler()
     scheduler.start()

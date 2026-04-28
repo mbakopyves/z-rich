@@ -383,25 +383,43 @@ function getCountryCoords(countryName, region) {
   return [20, 0];
 }
 
-function Header({ t, activeSection, onSectionChange, language, onLanguageChange }) {
+function Header({ t, activeSection, onSectionChange, language, onLanguageChange, theme, onToggleTheme }) {
   return (
     <header className={styles.header}>
       <div className={styles.headerTop}>
         <div className={styles.brandBlock}>
-          <h1 className={styles.brand}>Zürich</h1>
-          <p className={styles.subtitle}>{t.subtitle}</p>
+          <div style={{display: 'flex', alignItems: 'center', gap: 12}}>
+            <img src="/logo-waniwa.svg" alt="WANIWA" style={{width: 44, height: 44, borderRadius: 8}} />
+            <div>
+              <h1 className={styles.brand}>WANIWA</h1>
+              <p className={styles.subtitle}>{t.subtitle}</p>
+            </div>
+          </div>
         </div>
 
-        <label className={styles.languageControl}>
-          <span>{t.languageLabel}</span>
-          <select className={styles.languageSelect} value={language} onChange={(event) => onLanguageChange(event.target.value)} aria-label={t.languageLabel}>
-            {LANGUAGE_CODES.map((lang) => (
-              <option key={lang} value={lang}>
-                {lang.toUpperCase()}
-              </option>
-            ))}
-          </select>
-        </label>
+        <div style={{display: 'flex', alignItems: 'center', gap: 10}}>
+          <label className={styles.languageControl}>
+            <span>{t.languageLabel}</span>
+            <select className={styles.languageSelect} value={language} onChange={(event) => onLanguageChange(event.target.value)} aria-label={t.languageLabel}>
+              {LANGUAGE_CODES.map((lang) => (
+                <option key={lang} value={lang}>
+                  {lang.toUpperCase()}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <button
+            type="button"
+            onClick={onToggleTheme}
+            aria-pressed={theme === 'dark'}
+            title={theme === 'dark' ? 'Activer le thème clair' : 'Activer le thème sombre'}
+            className={styles.themeButton}
+            style={{padding: '6px 10px'}}
+          >
+            {theme === 'dark' ? '☀️' : '🌙'}
+          </button>
+        </div>
       </div>
 
       <nav className={styles.navbar} aria-label={t.navAria}>
@@ -1109,7 +1127,7 @@ function ReportsPage({ t, language }) {
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement('a');
     anchor.href = url;
-    anchor.download = 'zurich-report.csv';
+    anchor.download = 'waniwa-report.csv';
     document.body.appendChild(anchor);
     anchor.click();
     document.body.removeChild(anchor);
@@ -1281,9 +1299,27 @@ function App() {
   const [error, setError] = useState(null);
   const [scraping, setScraping] = useState(false);
   const [articleOuvert, setArticleOuvert] = useState(null);
+  const [theme, setTheme] = useState(() => {
+    try {
+      const s = localStorage.getItem('theme');
+      if (s) return s;
+      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    } catch (e) {
+      return 'light';
+    }
+  });
 
   const t = TRANSLATIONS[language];
   const isRtl = language === 'ar';
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+    try {
+      localStorage.setItem('theme', theme);
+    } catch (e) {
+      // ignore
+    }
+  }, [theme]);
 
   useEffect(() => {
     const intervalId = window.setInterval(() => {

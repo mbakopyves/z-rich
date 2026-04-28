@@ -18,7 +18,7 @@ from database import insert_article, update_stats
 
 LOGGER = logging.getLogger(__name__)
 TIMEOUT_SECONDS = 8
-HEADERS = {"User-Agent": "ZurichMonitor/1.0 (+http://localhost)"}
+HEADERS = {"User-Agent": "WaniwaMonitor/1.0 (+http://localhost)"}
 
 UNEPPAGE_URL = "https://www.unep.org/news-and-stories"
 UNEP_RSS_URL = "https://www.unep.org/news-and-stories/rss.xml"
