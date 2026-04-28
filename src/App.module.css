@@ -81,7 +81,7 @@
 }
 
 .navButtonActive {
-  border-bottom-color: #111111;
+  border-bottom-color: var(--color-primary);
   font-weight: 600;
 }
 
@@ -167,8 +167,8 @@
 }
 
 .chipActive {
-  border-color: #111111;
-  color: #000000;
+  border-color: var(--color-primary);
+  color: var(--color-text);
   font-weight: 600;
 }
 
@@ -601,7 +601,7 @@
 
 .themeBarFill {
   height: 100%;
-  background: #111;
+  background: var(--color-primary);
 }
 
 .alertsHeaderRow {
@@ -859,8 +859,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  border-bottom: 2px solid #111111;
-  background: #ffffff;
+  border-bottom: 2px solid var(--color-primary);
+  background: var(--color-bg);
   flex-shrink: 0;
   gap: 16px;
 }
@@ -910,14 +910,14 @@
 }
 
 .lecteurFermer {
-  border: 1px solid #111111;
-  background: #111111;
+  border: 1px solid var(--color-primary);
+  background: var(--color-primary);
   color: #ffffff;
   font-size: 12px;
   padding: 6px 14px;
   border-radius: 4px;
   cursor: pointer;
-  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-sans);
 }
 
 .lecteurFermer:hover {
