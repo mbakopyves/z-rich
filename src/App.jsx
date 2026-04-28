@@ -1109,7 +1109,7 @@ function ReportsPage({ t, language }) {
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement('a');
     anchor.href = url;
-    anchor.download = 'zurich-report.csv';
+    anchor.download = 'waniwa-report.csv';
     document.body.appendChild(anchor);
     anchor.click();
     document.body.removeChild(anchor);
